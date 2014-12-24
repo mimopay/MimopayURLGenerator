@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mimopay URL Generator</title>
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script>
+</head>
+<body>
+<div>
+	<header><h2 align="center">Mimopay URL Generator</h2></header>
+	<div align="center">
+		<fieldset style="width: 30%;">
+			<table>
+				<tr style="height:40px;"> <td style="width:40%;"><label>Method:</label></td> <td>
+					<select id="pmethod" style="padding:2px">
+						<option selected value="smartfren_api">&emsp;smartfren&emsp;</option>
+						<option value="sevelin_api">&emsp;sevelin&emsp;</option>
+						<option value="xl_hrn_api">&emsp;xl voucher&emsp;</option>
+					</select> </td> </tr>
+				<tr style="height:40px;"> <td style="width:40%;"> <label>Merchant ID:</label> </td> <td> <input style="padding:4px" id="merchantid" value="ID-0031" type="text"></td> </tr>
+				<tr style="height:40px;"> <td style="width:40%;"> <label>User ID:</label></td> <td> <input  style="padding:4px" id="userid" value="1419419318" type="text"> </td> </tr>
+				<tr style="height:40px;"> <td style="width:40%;"> <label>Product Name:</label> </td> <td> <input  style="padding:4px" id="productname" value="ID-0031-0001" type="text"> </td> </tr>
+				<tr style="height:40px;"> <td style="width:40%;"> <label>Transaction ID:</label> </td> <td> <input  style="padding:4px" id="transid" value="1419419318" type="text"> </td> </tr>
+				<tr style="height:40px;"> <td style="width:40%;"> <label>Currency Code:</label> </td> <td> <input  style="padding:4px" id="currencycode" value="IDR" type="text"> </td> </tr>
+				<tr style="height:40px;"> <td style="width:40%;"> <label>Amount:</label> </td> <td> <input  style="padding:4px" id="amount" value="0" type="text"> </td> </tr>
+				<tr style="height:40px;"> <td style="width:40%;"> <label>Secret Key:</label> </td> <td> <input  style="padding:4px" id="secretkey" placeholder="your secret key here..." required="" type="text"> </td> </tr> 
+				<tr style="height:60px;"> <td style="width:40%;"> </td> <td align="right"> <button type="button" onclick="geturl()">&emsp;Generate!&emsp;</button> </td> </tr> 
+			</table>
+		</fieldset>
+	</div>
+	<p align="center"><a id="genurl" href="#" target="_blank">#</a> </p>
+</div>
+</body>
+<script>
+    function geturl() {
+		var pmethod = document.getElementById("pmethod").value;
+		var merchantid = document.getElementById("merchantid").value;
+		var userid = document.getElementById("userid").value;
+		var productname = document.getElementById("productname").value;
+		var transid = document.getElementById("transid").value;
+		var currencycode = document.getElementById("currencycode").value;
+		var amount = document.getElementById("amount").value;
+		var secretkey = document.getElementById("secretkey").value;
+		var genurl = document.getElementById("genurl");		
+		if(secretkey == "") {
+			genurl.innerHTML = "secret key shouldn't be empty";
+			return;
+		}
+		var rmd5 = CryptoJS.MD5(transid + merchantid + secretkey);
+		var allres = "http://staging.mimopay.com/" + pmethod + "/load/" + userid + "/" + productname + "/" + merchantid + "/" + transid + "/" + currencycode + "/" + amount + "/" + rmd5;
+		genurl.href = genurl.innerHTML = allres;
+    }
+</script>
+</html>
+
+
